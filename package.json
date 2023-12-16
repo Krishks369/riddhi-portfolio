@@ -5,7 +5,7 @@
   "description": "An exploration of smooth panel scroll effects based on Margot Priolet's website.",
   "scripts": {
     "start": "parcel index.html",
-    "clean": "rmdir /s /q \"dist\" && mkdir \"dist\"",
+    "clean": "rimraf dist && mkdir dist",
     "build:parcel": "parcel build index.html --no-content-hash --no-source-maps --public-url ./",
     "build": "npm run clean && npm run build:parcel"
   },
@@ -22,12 +22,13 @@
   "staticFiles": {
     "staticPath": "src",
     "watcherGlob": "**"
-},
+  },
   "dependencies": {
     "@studio-freight/lenis": "^0.2.9",
     "gsap": "^3.11.3",
     "imagesloaded": "^5.0.0",
-    "parcel": "^2.10.3"
+    "parcel": "^2.10.3",
+    "vercel": "^32.7.2"
   },
   "devDependencies": {
     "parcel-plugin-static-files-copy": "^2.6.0"
