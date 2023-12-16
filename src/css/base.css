@@ -1,0 +1,799 @@
+*,
+*::after,
+*::before {
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 16px;
+	--color-text: #000;
+	--color-bg: hsl(22deg 25% 73%);
+	--color-text-alt: hsl(1deg 69% 50%);
+	--color-link: #000;
+	--color-link-hover: #000;
+	/* Column/item variables */
+	--ratio: 1.3; 				/* image ratio */
+	--grid-item-width: 32vw;	/* image width */
+	--justify: space-between;	/* spread columns or center */
+	--gap: 2.5vw;				/* column gap and margin for items */
+	--rotation: 0deg;			/* section rotation */
+	--radius: 0px;				/* image border radius */
+	--offset: -30vh;			/* offset of even columns */
+	/* content section */
+	--radius-small: 4px; 		/* border radius of small images */
+}
+
+body {
+	margin: 0;
+	text-transform: uppercase;
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	font-family: 'Helvetica', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.demo-2 {
+	--color-bg: #df6a26;
+    --color-text-alt: #eaa750;
+	--ratio: 1;
+	--grid-item-width: 23vw;
+	--radius: 8px;
+}
+
+.demo-3 {
+	--color-bg: #ede9e6;
+	--color-text-alt: hsl(10deg 69% 50%);
+	--ratio: 1.1;
+	--grid-item-width: 17vw;
+	--radius: 12px;
+	--justify: center;
+	--gap: 2.5vw;
+}
+
+.demo-4 {
+	--color-text: #fff;
+	--color-link: #fff;
+	--color-link-hover: #aaa;
+	--color-bg: #0f0e0e;
+	--color-text-alt: hsl(10deg 69% 50%);
+	--ratio: 1;
+	--grid-item-width: 25vw;
+	--radius: 4px;
+	--justify: center;
+	--gap: 2.5vw;
+	--rotation: -45deg;
+	--offset: 20vh;
+}
+
+.demo-5 {
+	--color-bg: hsl(1deg 15% 83%);
+	--color-text-alt: hsl(10deg 69% 50%);
+	--ratio: 0.8;
+	--grid-item-width: 30vw;
+	--radius: 0;
+	--justify: center;
+	--gap: 1.5vw;
+	--offset: 0;
+}
+
+/* Page Loader */
+.js .loading::before,
+.js .loading::after {
+	content: '';
+	position: fixed;
+	z-index: 1000;
+}
+
+.js .loading::before {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--color-bg);
+}
+
+.js .loading::after {
+	top: 50%;
+	left: 50%;
+	width: 60px;
+	height: 60px;
+	margin: -30px 0 0 -30px;
+	border-radius: 50%;
+	opacity: 0.4;
+	background: var(--color-link);
+	animation: loaderAnim 0.7s linear infinite alternate forwards;
+
+}
+
+@keyframes loaderAnim {
+	to {
+		opacity: 1;
+		transform: scale3d(0.5,0.5,1);
+	}
+}
+
+a {
+	text-decoration: none;
+	color: var(--color-link);
+	outline: none;
+	cursor: pointer;
+}
+
+a:hover {
+	color: var(--color-link-hover);
+	outline: none;
+}
+
+/* Better focus styles from https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible */
+a:focus {
+	/* Provide a fallback style for browsers
+	 that don't support :focus-visible */
+	outline: none;
+	background: lightgrey;
+}
+
+a:focus:not(:focus-visible) {
+	/* Remove the focus indicator on mouse-focus for browsers
+	 that do support :focus-visible */
+	background: transparent;
+}
+
+a:focus-visible {
+	/* Draw a very noticeable focus style for
+	 keyboard-focus on browsers that do support
+	 :focus-visible */
+	outline: 2px solid red;
+	background: transparent;
+}
+
+.unbutton {
+	background: none;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	cursor: pointer;
+}
+
+.unbutton:focus {
+	outline: none;
+}
+
+.frame {
+    width: 100%;
+    line-height: 1.2;
+    font-size: 2rem;
+    color: var(--color-title);
+    padding: 1rem;
+    display: flex; /* Change to flex to center items horizontally */
+    justify-content: center; /* Add space between items */
+    align-items: flex-start; /* Align items to the bottom */
+    z-index: 100;
+    position: absolute;
+}
+
+.frame__header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.frame__title {
+    grid-area: title;
+    display: flex;
+    white-space: nowrap;
+}
+
+.frame__title-main {
+    font-size: 1rem;
+    margin: 0;
+    font-weight: normal;
+}
+
+.frame__title-back-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame__title-back-right span {
+    display: none;
+}
+
+.frame__title-back-right svg {
+    fill: currentColor;
+}
+
+.frame__prev {
+    justify-self: end;
+    grid-area: prev;
+}
+
+.frame__demos {
+    grid-area: nav;
+    display: flex;
+    flex-wrap: wrap;
+    justify-self: stretch;
+    justify-content: space-between;
+}
+
+.frame__demos-title {
+    font-weight: 400;
+    margin: 0;
+    font-size: 1rem;
+    width: 100%;
+    color: var(--color-text-alt);
+}
+
+.frame__demos-item {
+    grid-row: 2;
+}
+
+
+.frame a:not(.frame__title-back),
+.row + p a {
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+}
+
+.frame a:not(.frame__title-back)::before,
+.row + p a::before {
+    content: '';
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    position: absolute;
+    top: 90%;
+    transition: transform 0.3s;
+    transform-origin: 0% 50%;
+}
+
+.frame a:not(.frame__title-back):hover::before,
+.row + p a:hover::before {
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+}
+
+.section {
+	line-height: 1;
+	position: static;
+    top: 0;
+    z-index: 4;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg);
+}
+
+.section--intro {
+	margin-bottom: 250vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	padding: 8rem 0 2rem;
+	cursor: default;
+}
+
+.section__title {
+	font-family: kudryashev-d-excontrast-sans, sans-serif;
+	font-weight: 300;
+	font-size: clamp(2rem,12vw,12.5rem);
+	margin: 0vh 0 6vh;
+	line-height: 0.9;
+	text-transform: none;
+	display: flex; /* Change to flex to center items horizontally */
+    justify-content: center; /* Add space between items */
+    align-items: flex-start; /* Align items to the bottom */
+	-moz-font-feature-settings: "swsh";
+	-webkit-font-feature-settings: "swsh";
+	font-feature-settings: "swsh";
+	color: var(--color-text-alt);
+}
+
+.section__title2 {
+	font-family: kudryashev-d-excontrast-sans, sans-serif;
+	font-weight: 300;
+	font-size: clamp(2rem,17vw,12.5rem);
+	margin: 15vh 0 6vh;
+	line-height: 0.9;
+	text-transform: none;
+	-moz-font-feature-settings: "swsh";
+	-webkit-font-feature-settings: "swsh";
+	font-feature-settings: "swsh";
+	color: var(--color-text-alt);
+}
+
+.section__title--medium {
+	text-align: center;
+	text-align-last: center;
+	font-size: clamp(1.5rem,10vw,9rem);
+	line-height: 1.3;
+}
+
+.section__title--medium2 {
+	text-align: center;
+	text-align-last: center;
+	font-size: clamp(1.5rem,9vw,9rem);
+	line-height: 1.3;
+}
+
+.section__text {
+	margin: 0;
+	max-width: 580px;
+	display: flex; /* Change to flex to center items horizontally */
+    justify-content: center; /* Add space between items */
+    align-items: flex-start; /* Align items to the bottom */
+	text-align: justify;
+    text-align-last: center;
+}
+
+.section__text--alt {
+	margin-top: auto;
+	color: var(--color-text-alt);
+}
+
+.section__arrow {
+	transform: translateY(3px) rotate(135deg);
+	fill: currentColor;
+}
+
+.section--columns {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	width: 100%;
+	height: 100vh;
+}
+
+.columns {
+	width: 100%;
+	position: relative;
+	display: flex;
+	justify-content: var(--justify);
+	gap: var(--gap);
+	height: 100%;
+	transform: rotate(var(--rotation));
+	align-items: center;
+	will-change: transform, opacity;
+}
+
+.column-wrap {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 5vh 0 15vh;
+	will-change: transform;
+}
+
+.column-wrap:nth-child(even) {
+	margin-top: var(--offset);
+}
+
+.column {
+	position: relative;
+	display: block;
+	will-change: transform;
+}
+
+.column__item {
+	--grid-item-height: calc(var(--grid-item-width) * var(--ratio));
+	width: var(--grid-item-width);
+	height: var(--grid-item-height);
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--radius);
+	cursor: pointer;
+	margin: 0 0 var(--gap) 0;
+	z-index: 1;
+	will-change: transform, filter;
+}
+
+
+.column__item-img {
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: 50% 50%;
+	will-change: transform;
+}
+
+.section--showcase {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	padding: 8rem 5vw 10vh;
+	cursor: default;
+}
+
+.section__header {
+	display: flex;
+	border-bottom: 1px solid #000;
+	width: 100%;
+	align-items: center;
+	justify-content: space-around;
+	padding: 4vh 8vw;
+	margin-bottom: 4rem;
+}
+
+.section__year {
+	color: var(--color-text-alt);
+}
+
+.section__year2 {
+	color: var(--color-text-alt);
+	margin: 13vh 0 6vh;
+}
+
+.project {
+    line-height: 1;
+    position: static;
+    top: 0;
+    z-index: 4;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--color-bg);
+}
+
+.project--intro {
+    margin-bottom: 250vh;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 8rem 0 2rem;
+    cursor: default;
+}
+
+.project__title {
+    font-family: kudryashev-d-excontrast-sans, sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.5rem,12vw,12rem);
+	margin: 0vh 0 2vh;
+    line-height: 0.9;
+    text-transform: none;
+    -moz-font-feature-settings: "swsh";
+    -webkit-font-feature-settings: "swsh";
+    font-feature-settings: "swsh";
+	color: var(--color-text-alt);
+}
+
+.project__title--medium {
+    font-size: clamp(1.5rem,12vw,9rem);
+}
+
+.project__text {
+    margin: 0;
+    max-width: 800px;
+	font-weight: 150;
+	font-size: clamp(0.250rem, 2vw, 2rem);
+	text-align: justify;
+    text-align-last: center;
+}
+
+.project__text--alt {
+    margin-top: auto;
+    color: var(--color-text-alt);
+}
+
+.project__arrow {
+    transform: translateY(3px) rotate(135deg);
+    fill: currentColor;
+}
+
+.project--columns {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+}
+
+.project__header {
+    display: flex;
+    border-bottom: 1px solid #000;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    padding: 4vh 8vw;
+    margin-bottom: 4rem;
+}
+
+.project__year {
+    color: var(--color-text-alt);
+}
+
+.custom-project {
+	line-height: 1;
+	position: static;
+	top: 0;
+	z-index: 4;
+	width: 100%;
+	min-height: 100vh;
+	background: var(--color-bg);
+}
+
+.custom-project--intro {
+	margin-bottom: 250vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	padding: 8rem 0 2rem;
+	cursor: default;
+}
+
+.custom-project__title {
+	font-family: kudryashev-d-excontrast-sans, sans-serif;
+	font-weight: 300;
+	font-size: clamp(1rem, 8vw, 6rem);
+	margin: 10vh 0 2vh;
+	line-height: 0.9;
+	text-transform: none;
+	-moz-font-feature-settings: "swsh";
+	-webkit-font-feature-settings: "swsh";
+	font-feature-settings: "swsh";
+}
+
+.custom-project__title--medium {
+	font-size: clamp(1rem, 8vw, 4.5rem);
+}
+
+.custom-project-spanner {
+	margin: auto;
+	max-width: 1250px;
+	text-align: justify;
+	font-size: clamp(1rem, 1.5vw, 4.5rem);
+	color: var(--color-text-alt);
+}
+
+.custom-project__titler {
+	margin: auto;
+	max-width: 1250px;
+	text-align: right;
+	font-size: clamp(1rem, 1vw, 4.5rem);
+}
+
+.custom-project_img-align {
+	margin: auto;
+	max-width: 1250px;
+}
+
+.custom-project__text {
+	margin: auto;
+	max-width: 1250px;
+	text-align: justify;
+	text-align-last: center;
+	font-size: clamp(1rem, 1.5vw, 4.5rem);
+	line-height: 1.3;
+}
+
+.custom-project__text2 {
+	margin: auto;
+	max-width: 1250px;
+	text-align: left;
+	text-align-last: left;
+	font-size: clamp(1rem, 1.75vw, 4.5rem);
+	line-height: 1.3;
+}
+
+.custom-project__textj {
+	margin: auto;
+	max-width: 1250px;
+	text-align: justify;
+	text-align-last: justify;
+	font-size: clamp(1rem, 1.5vw, 4.5rem);
+	line-height: 1.3;
+}
+
+.custom-project__textl {
+	margin: auto;
+	max-width: 1000px;
+	text-align: left;
+	text-align-last: left;
+	font-size: clamp(1rem, 1.3vw, 4.5rem);
+	line-height: 1;
+}
+
+.custom-project__textalt {
+	margin: auto;
+	max-width: 1250px;
+	text-align: left;
+	text-align-last: left;
+	font-size: clamp(1rem, 2.3vw, 4.5rem);
+	display: flex; /* Change to flex to center items horizontally */
+    justify-content: left; /* Add space between items */
+    align-items: flex-start; /* Align items to the bottom */
+	color: var(--color-text-alt);
+}
+
+.custom-project__arrow {
+	transform: translateY(3px) rotate(135deg);
+	fill: currentColor;
+}
+
+.custom-project--columns {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	width: 100%;
+	height: 100vh;
+}
+
+.custom-project__header {
+	display: flex;
+	border-bottom: 1px solid #000;
+	width: 100%;
+	align-items: center;
+	justify-content: space-around;
+	padding: 4vh 8vw;
+	margin-bottom: 4rem;
+}
+
+.custom-project__year {
+	color: var(--color-text-alt);
+}
+
+  /* Center the grid vertically and horizontally */
+  .centered-grid {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* Adjust as needed to center within the viewport */
+}
+
+/* Style for the grid */
+.image-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px; /* Adjust the gap as needed */
+}
+
+.image-grid-item {
+	width: 100%; /* Adjust based on your desired image size */
+	height: auto; /* Automatically maintain aspect ratio */
+	object-fit: cover; /* This ensures the images maintain their aspect ratio and cover the entire container */
+	border: 5px solid #000; /* Add a border to create the spacing effect */
+}
+.row {
+	text-align: left;
+	width: 100%;
+}
+
+.row__header {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 4ch 1fr;
+	grid-template-rows: auto auto;
+	grid-gap: 2rem;
+	justify-content: start;
+	padding: 6rem 0 3rem;
+}
+
+.row__header span:last-child {
+	grid-column: 1 / span 2;
+}
+
+.row__content {
+	display: grid;
+	width: 100%;
+	grid-auto-flow: column;
+	grid-gap: 1rem;
+	justify-content: start;
+}
+
+.row__content-imgwrap {
+	overflow: hidden;
+	position: relative;
+	border-radius: var(--radius-small);
+}
+
+.row__content-img {
+	aspect-ratio: 2;
+	height: 100px;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+
+.row__content-imgwrap:nth-child(even) .row__content-img{
+	aspect-ratio: 1;
+}
+
+.row__content-imgwrap:nth-child(4n) .row__content-img{
+	aspect-ratio: 1.5;
+}
+
+.row__content-imgwrap:last-child {
+	justify-content: end;
+}
+
+.row__content-imgwrap:last-child .row__content-img {
+	aspect-ratio: 2.75;
+}
+
+.row + p {
+	margin-top: 40vh;
+}
+.large-image {
+    width: 100%; /* You can adjust the width as needed */
+	text-align: center;
+}
+
+.large-image .row__content-img {
+	aspect-ratio: 16/9; /* Maintain a 16:9 aspect ratio for the images */
+    max-width: 100%; /* Ensure images don't exceed the container width */
+    width: auto; /* Allow the width to adjust based on aspect ratio */
+    height: auto; /* Allow the height to adjust based on aspect ratio */
+    display: inline-block; /* Ensure inline-block to center-align */
+}
+
+.large-image:nth-child(even) .row__content-img {
+    aspect-ratio: 1; /* You can adjust the aspect ratio for even rows as needed */
+    height: 200px; /* You can adjust the height for even rows as needed */
+}
+
+.large-image:nth-child(4n) .row__content-img {
+    aspect-ratio: 1.5; /* You can adjust the aspect ratio for every 4th row as needed */
+    height: 200px; /* You can adjust the height for every 4th row as needed */
+}
+
+
+.large-image:last-child .row__content-img {
+    aspect-ratio: 2.75; /* You can adjust the aspect ratio for the last large image as needed */
+    height: 200px; /* You can adjust the height for the last large image as needed */
+}
+
+
+@media screen and (min-width: 53em) {
+	.frame {
+		grid-template-columns: 15% 15% 1fr 15% 15%;
+		grid-template-rows: auto;
+		padding: 2rem 3rem;
+		grid-template-areas: 'title prev nav sponsor sponsor';
+		justify-content: center;
+		grid-gap: 2rem;
+		align-items: center;
+		justify-items: start;
+	}
+	.frame__prev {
+		justify-self: start;
+	}
+	.frame__demos {
+		text-align: center;
+		justify-self: center;
+	}
+	.section, 
+	.row {
+		font-size: 1.45rem;
+	}
+	.row__header {
+		display: grid;
+		grid-template-columns: 4ch auto 1fr;
+		grid-template-rows: auto;
+	}
+	.row__header span:last-child {
+		justify-self: end;
+		grid-column: revert;
+	}
+	
+}
